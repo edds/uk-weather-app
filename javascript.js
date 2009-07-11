@@ -77,9 +77,11 @@ var currentMaps;
 
 $(document).ready(function(){
 	$(".location").click(function(){
-		currentMaps = new Maps($(this).attr('location'));
-		currentMaps.increment(0);
-		$('.sliding').animate({'left':'-320px'});
+		var self = this;
+		$('.sliding').animate({'left':'-320px'}, function(){
+			currentMaps = new Maps($(self).attr('location'));
+			currentMaps.increment(0);
+		});
 	});
 	$(".back").click(function(){
 		$('.sliding').animate({'left':'0px'}, function(){
