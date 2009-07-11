@@ -2,167 +2,51 @@
 
 <title>UK Weather</title>
 
-<style>
-* {
-	border: 0;
-	margin: 0;
-}
-body {
-	font: 12px/12px helvetica;
-}
-.top, .bottom {
-	background: -webkit-gradient(linear,left top, left bottom, from(#B2BBCC), to(#7283A0));
-}
-.top {
-	height: auto;
-	border-bottom: 1px solid #000;
-	padding: .5em;
-}
-.bottom {
-	border-top: 1px solid #000;
-	height: 40px;
-}
-h1, h2 {
-	font-weight: bold;
-	font-size: 1.5em;
-	color: #414852;
-	text-shadow: 1px 1px 1px #C4CBD8;
-	text-align: center;
-	padding: .5em;
-}
-.navigation {
-	height: 30px;
-	width: 35px;
-	padding: 5px;
-}
-.previous {
-	background: transparent url(back_button.png) center center no-repeat;
-	float: left;
-}
-.next {
-	background: transparent url(forward_button.png) center center no-repeat;
-	float: right;
-}
-.current {
-	float: left;
-	text-align: center;
-	width: 230px;
-	padding: .4em 0;
-}
-.map {
-	line-height: 0px;
-}
-.footer {
-	background: #000;
-	color: #fff;
-	text-align: center;
-	height: 23px;
-	line-height: 23px;
-}
-.footer a {
-	color: #fff;
-	text-decoration: none;
-	border-bottom: 1px solid;
-}
-</style>
-
 <meta name="viewport" content="width=320, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="YES">
 
-<script type="text/javascript">
-var d = new Date();
-d.setMinutes(0);
-var startTime = d.getHours() - offSet(d.getHours());
-var dates = new Array(4);
-var images = new Array();
-var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-for(var i = 0; i < 5; i++){
-	var year = String(d.getFullYear()).substring(2);
-	var month = d.getMonth()+1;
-	if(month < 10) month = '0'+month;
-	var date = d.getDate();
-	if(date < 10) date = '0'+date;
-	dates[i] = {"date": new Date(d), "url": year+month+date};
-	d.setDate(d.getDate()+1);	
-}
-var j = 0;
-var hour = startTime;
-var images = new Array()
-for(date in dates){
-	if(j > 0){
-		hour = 0;
-	}
-	while(hour < 24){
-		if(hour == 24){
-			url_hour = 0 
-		} else {
-			url_hour = hour;
-		}
-		if(url_hour < 10) url_hour = '0'+url_hour;
-		var url = "http://www.bbc.co.uk/weather/charts/uk/se_cloudrain_" + dates[date].url + url_hour + ".jpg";
-		var i = new Image();
-		i.src = url;
-		images[j++] = {
-			"url" : url,
-			"image" : i,
-			'date': new Date(dates[date].date.setHours(hour)) };
-		if(j < 9){
-			hour = hour + 3;
-		} else {
-			if(hour < 12)
-				hour = 12;
-			else 
-				hour = 24;
-		}
-
-	}
-//	alert(dates[date]);
-}
-
-function offSet(hours){
-	return (hours % 3);
-}
-var currentMapIndex = 0;
-function displayImage(i){
-	if((currentMapIndex + i) > -1 && (currentMapIndex + i) < images.length){
-		currentMapIndex = currentMapIndex + i;
-		next = currentMapIndex;
-		document.getElementById('map').src = images[next].url;
-		var display_hour = images[next].date.getHours();
-		if(display_hour < 10) display_hour = '0'+display_hour;
-		var t = days[images[next].date.getDay()] + ' ' + display_hour + ':00';
-		document.getElementById('date').innerHTML = t;
-	}
-}
-window.onload = function(){
-	document.getElementById('back').onclick = function(){
-		displayImage(-1);
-	};
-	document.getElementById('forward').onclick = function(){
-		displayImage(+1);
-	};
-	document.getElementById('map').onclick = function(){
-		displayImage(+1);
-	};
-	displayImage(0);
-}
+<link rel="stylesheet" type="text/css" href="style.css">
+<script type="text/javascript" src="jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="javascript.js"></script>
 
 
-</script>
+<div class="wrapper"><div class="sliding">
+	<div class="card">
+		<div class="top"><h1>Chose Location</h1></div>
 
-<div class="top"><h1>UK Weather</h1></div>
+		<div class="list">
+			<ul>
+				<li class="location" location="ne">England North East</li>
+				<li class="location" location="e">England East</li>
+				<li class="location" location="se">England South East</li>
+				<li class="location" location="s">England South</li>
+				<li class="location" location="sw">England South West</li>
+				<li class="location" location="wl">Wales</li>
+				<li class="location" location="nw">England North West</li>
+				<li class="location" location="m">England Midlands</li>
+				<li class="location" location="ni">Northern Ireland</li>
+				<li class="location" location="sn">Scotland North</li>
+				<li class="location" location="ss">Scotland South</li>
+			</ul>
+		</div>
+	</div>
+	<div class="card">
+		<div class="top"><h1>UK Weather</h1><span class="back"><img src="back.png"></span></div>
 
-<div class="map"><img id="map" src="http://www.bbc.co.uk/weather/charts/uk/se_cloudrain_09070800.jpg" width="320px"></div>
+		<div class="map"><img id="map" src="loading.jpg" width="320px"></div>
 
-<div class="bottom">
-	<div id="back" class="navigation previous"></div>
-	<div class="current"><h2 id="date">Loading...</h2></div>
-	<div id="forward" class="navigation next"></div>
-</div>
+		<div class="bottom">
+			<div id="back" class="navigation previous"></div>
+			<div class="current"><h2 id="date">Loading...</h2></div>
+			<div id="forward" class="navigation next"></div>
+		</div>
 
-<div class="footer">
-	<p>&copy; 2009 <a href="http://e26.co.uk">Edd Sowden</a> | <a href="http://twitter.com/edds">@edds</a></p>
-</div>
+		<div class="footer">
+			<p>&copy; 2009 <a href="http://e26.co.uk">Edd Sowden</a> | <a href="http://twitter.com/edds">@edds</a></p>
+		</div>
+	</div>
+</div></div>
+
 
 <!--
 	
