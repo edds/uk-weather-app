@@ -53,7 +53,8 @@ Maps.prototype.populateDays = function(){
 			} else {
 				url_hour = pad(hour);
 			}
-			var url = "http://www.bbc.co.uk/weather/charts/uk/"+this.area+"_cloudrain_" + this.dates[date].url + url_hour + ".jpg";
+//			var url = "http://www.bbc.co.uk/weather/charts/uk/"+this.area+"_cloudrain_" + this.dates[date].url + url_hour + ".jpg";
+			var url = "http://uk-weather-app-maps.appspot.com/image?date=" + this.dates[date].url + url_hour + "&location="+this.area;
 			var i = new Image();
 			i.src = url;
 			images[j++] = {
@@ -76,6 +77,7 @@ Maps.prototype.populateDays = function(){
 var currentMaps;
 
 $(document).ready(function(){
+	var currentMaps = null;
 	$(".location").click(function(){
 		var self = this;
 		$('.sliding').animate({'left':'-320px'}, function(){
@@ -88,7 +90,6 @@ $(document).ready(function(){
 			$("#map").attr('src','loading.jpg');
 		});
 	});
-	var currentMaps = new Maps('se');
 	document.getElementById('back').onclick = function(){
 		currentMaps.increment(-1);
 	};
@@ -98,6 +99,5 @@ $(document).ready(function(){
 	document.getElementById('map').onclick = function(){
 		currentMaps.increment(+1);
 	};
-	currentMaps.increment(0);
 	
 });
