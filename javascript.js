@@ -16,6 +16,7 @@ var Maps = function(area){
 	this.dates = this.getDays();
 	this.images = this.populateDays();
 	this.currentImage = 0;
+	this.increment(0);
 }
 Maps.prototype.increment = function(i){
 	if((this.currentImage + i) > -1 && (this.currentImage + i) < this.images.length){
@@ -55,8 +56,9 @@ Maps.prototype.populateDays = function(){
 			}
 //			var url = "http://www.bbc.co.uk/weather/charts/uk/"+this.area+"_cloudrain_" + this.dates[date].url + url_hour + ".jpg";
 			var url = "http://uk-weather-app-maps.appspot.com/image?date=" + this.dates[date].url + url_hour + "&location="+this.area;
-			var i = new Image();
-			i.src = url;
+//			var i = new Image();
+//			i.src = url;
+			var i = '';
 			images[j++] = {
 				"url" : url,
 				"image" : i,
@@ -76,20 +78,36 @@ Maps.prototype.populateDays = function(){
 }
 var currentMaps;
 
-$(document).ready(function(){
+function areWeWebClip(){
+	// We want an iPhone or iPod Touch
+	if (navigator.appVersion.indexOf('iPhone OS ') < 0) {
+		document.getElementById('wrapper').style.display = 'none';
+		document.getElementById('nonTouchDevice').style.display = 'block';
+	} else if (!window.navigator.standalone) {
+		// We have an iPhone but we are
+		// not running as an installed app
+		alert('This app works best when added to your home screen. To do this click the plus in the bottom bar and click "Add to Home Screen".');
+		
+	}
+}
+
+window.onload = function(){
+	areWeWebClip(); // really the interface is so much nicer if it is
 	var currentMaps = null;
-	$(".location").click(function(){
-		var self = this;
-		$('.sliding').animate({'left':'-320px'}, function(){
-			currentMaps = new Maps($(self).attr('location'));
-			currentMaps.increment(0);
-		});
-	});
-	$(".back").click(function(){
-		$('.sliding').animate({'left':'0px'}, function(){
-			$("#map").attr('src','loading.jpg');
-		});
-	});
+	var locations = document.getElementsByClassName("location");
+	for(var i=0, j=locations.length; i<j; i++){
+		locations[i].onclick = function(){
+			document.getElementById('sliding').style.left = "-320px";
+			var currentLocation = this.getAttribute('location')
+			window.setTimeout(function(){
+				currentMaps = new Maps(currentLocation);
+			}, 500);
+		}
+	}
+	document.getElementById('goHome').onclick = function(){
+		document.getElementById('sliding').style.left = "0px";
+		document.getElementById("map").src = 'loading.jpg';
+	};
 	document.getElementById('back').onclick = function(){
 		currentMaps.increment(-1);
 	};
@@ -98,6 +116,5 @@ $(document).ready(function(){
 	};
 	document.getElementById('map').onclick = function(){
 		currentMaps.increment(+1);
-	};
-	
-});
+	};	
+}

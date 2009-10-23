@@ -17,6 +17,7 @@ body {
 	left: 0;
 	width: 650px;
 	height: 460px;
+	-webkit-transition: left .5s ease;
 }
 .card {
 	width: 320px;
@@ -87,6 +88,12 @@ h1, h2 {
 }
 .map {
 	line-height: 0px;
+}
+#nonTouchDevice {
+	display: none;
+	padding: 2em;
+	font-size: 2em;
+	line-height: 1em;
 }
 .footer {
 	background: #000;

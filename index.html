@@ -6,13 +6,12 @@
 <meta name="viewport" content="width=320, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="YES">
 <link href="./apple-touch-icon.png" rel="apple-touch-icon"/>
-
+<link href="./startup.png" rel="apple-touch-startup-image" />
 <link rel="stylesheet" type="text/css" href="style.css">
-<script type="text/javascript" src="jquery-1.3.2.min.js"></script>
 <script type="text/javascript" src="javascript.js"></script>
 
 
-<div class="wrapper"><div class="sliding">
+<div id="wrapper" class="wrapper"><div id="sliding" class="sliding">
 	<div class="card">
 		<div class="top"><h1>Chose Location</h1></div>
 
@@ -34,7 +33,7 @@
 		</div>
 	</div>
 	<div class="card">
-		<div class="top"><h1>UK Weather</h1><span class="back"><img src="back.png"></span></div>
+		<div class="top"><h1>UK Weather</h1><span id="goHome" class="back"><img src="back.png"></span></div>
 
 		<div class="map"><img id="map" src="loading.jpg" width="320px"></div>
 
@@ -49,21 +48,9 @@
 		</div>
 	</div>
 </div></div>
+<div id="nonTouchDevice">
+	UK Weather is an iPhone web app. <br>
+	Please visit this url on an iPhone or <br>
+	iPod touch to install UK Weather.
+</div>
 </html>
-
-<!--
-	
-	England East = e
-	England Midlands = m
-	England North East = ne
-	England North West = nw
-	England South = s
-	England South East = se
-	England South West = sw
-	Northern Ireland = ni
-	Scotland North = sn
-	Scotland South = ss
-	Wales = wl 
-	
-	
-	-->
