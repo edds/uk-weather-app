@@ -81,8 +81,8 @@ var currentMaps;
 function areWeWebClip(){
 	// We want an iPhone or iPod Touch
 	if (navigator.appVersion.indexOf('iPhone OS ') < 0) {
-		document.getElementById('wrapper').style.display = 'none';
-		document.getElementById('nonTouchDevice').style.display = 'block';
+		//document.getElementById('wrapper').style.display = 'none';
+		//document.getElementById('nonTouchDevice').style.display = 'block';
 	} else if (!window.navigator.standalone) {
 		// We have an iPhone but we are
 		// not running as an installed app
@@ -97,11 +97,13 @@ window.onload = function(){
 	var locations = document.getElementsByClassName("location");
 	for(var i=0, j=locations.length; i<j; i++){
 		locations[i].onclick = function(){
-			document.getElementById('sliding').style.left = "-320px";
+			var sliding = document.getElementById('sliding');
 			var currentLocation = this.getAttribute('location')
-			window.setTimeout(function(){
+
+			sliding.addEventListener('webkitTransitionEnd', function (){
 				currentMaps = new Maps(currentLocation);
-			}, 500);
+			});
+			sliding.style.left = "-320px";
 		}
 	}
 	document.getElementById('goHome').onclick = function(){
